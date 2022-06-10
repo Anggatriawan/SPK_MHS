@@ -119,5 +119,3 @@ $err = session()->getFlashdata('validation');
         });
     </script>
 <?= $this->endSection(); ?>
-    
-
