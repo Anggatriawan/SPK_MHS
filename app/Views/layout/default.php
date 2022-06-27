@@ -7,6 +7,10 @@ $uri = service('uri');
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>SIMAWA | Dashboard</title>
+
+  <!-- Font Awesome -->
+
+  <!-- Ionicons -->
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -18,14 +22,33 @@ $uri = service('uri');
   
   <link rel="stylesheet" href="<?= base_url('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css'); ?>">
 
+  <link rel="stylesheet" href="<?= base_url('adminlte/bower_components/select2/dist/css/select2.min.css'); ?>">
+
   <!-- jvectormap -->
   <link rel="stylesheet" href="<?= base_url('adminlte/bower_components/jvectormap/jquery-jvectormap.css'); ?>">
+
+  <!-- Font Awesome -->
+  <!-- Ionicons -->
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="<?= base_url('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css'); ?>">
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="<?= base_url('adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css'); ?>">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="<?= base_url('adminlte/plugins/iCheck/all.css'); ?>">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="<?= base_url('adminlte/bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css'); ?>">
+  <!-- Bootstrap time Picker -->
+  <link rel="stylesheet" href="<?= base_url('adminlte/plugins/timepicker/bootstrap-timepicker.min.css'); ?>">
+  <!-- Select2 -->
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="<?= base_url('adminlte/dist/css/skins/_all-skins.min.css'); ?>">
+
   <?= $this->renderSection('css') ?>
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url('adminlte/dist/css/AdminLTE.min.css'); ?>">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="<?= base_url('adminlte/dist/css/skins/_all-skins.min.css'); ?>">
 
   
 
@@ -141,25 +164,38 @@ $uri = service('uri');
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs" > ada,  <?=getUserMhs1()->nama_mhs ?>
+             <!-- <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">-->
+             <span class="hidden-xs" >
+
+             <?php
+             $data_mhs=userLoginMhs()->nama_mhs;
+             $data_user=userLogin()->fullname;
+             if (session()->get('role') == 'admin') {
+             echo $data_user;
+        }
+        else{
+          (session()->get('role') != 'admin');
+          echo $data_mhs;
+
+        }
+        ?>
+        
  </span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+              <img src="<?= base_url('adminlte/dist/img/umpo.png'); ?>" class="img-circle" alt="User Image">
                 <p>
                 
-                  <small>Member since Nov. 2012</small>
+                  <small>UNIVERSITAS MUHAMMADIYAH PONOROGO</small>
                 </p>
               </li>
               <!-- Menu Body -->
               <li class="user-body">
                 <div class="row">
                  
-                  <div class="col-xs-4 text-center">
+                  <div class=" text-center">
                     <a  href="<?= base_url('change-password'); ?>" >Ganti Password</a>
                   </div>
                 </div>
@@ -192,13 +228,28 @@ $uri = service('uri');
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="<?= base_url('adminlte/dist/img/umpo.png'); ?>" class="img-circle" alt="User Image">
         </div>
+        <div></div>
+
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p>
+            
+          <?php
+             $data_user=userLogin()->fullname;
+             if (session()->get('role') == 'admin') {
+             echo $data_user;
+        }
+        else{
+          (session()->get('role') != 'admin');
+
+        }
+        ?>
+        </p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
+      
       <!-- search form -->
       <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
@@ -215,15 +266,10 @@ $uri = service('uri');
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <li class="active treeview menu-open">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="<?= base_url('/layout/default'); ?>"><i class="fa fa-circle-o"></i> Dashboard </a></li>
-          </ul>
+
+        <li><a href="<?= base_url('/dashboard'); ?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    
+      
         </li>
      
         <li class="treeview">
@@ -234,29 +280,75 @@ $uri = service('uri');
             </span>
           </a>
           <ul class="treeview-menu">
+          <?php if (session()->get('role') == 'admin') : ?>
+
             <li><a href="<?= base_url('/mhs'); ?>"><i class="fa fa-circle-o"></i> Kelola Data Mahasiswa</a></li>
-            <li><a href="<?= base_url('/mhs_add'); ?>"><i class="fa fa-circle-o"></i> Tambah Data Mahasiswa</a></li>
+            <li><a href="<?= base_url('/mhs/add'); ?>"><i class="fa fa-circle-o"></i> Tambah Data Mahasiswa</a></li>
+            
+            <?php endif; ?>
+
+            <?php if (session()->get('role') != 'admin') : ?>
+
+            <li><a href="<?= base_url('/profil_mhs'); ?>"><i class="fa fa-circle-o"></i> Profil</a></li>
+
+            <?php endif; ?>
 
           </ul>
-         
         </li>
      
-      
-        
-  
+        <?php if (session()->get('role') == 'admin') : ?>
+
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-user"></i> <span>Profil</span>
+            <i class="fa fa-edit"></i> <span>Penilaian</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?= base_url('/profil_mhs'); ?>"><i class="fa fa-circle-o"></i> Kelola User</a></li>
+            <li><a href="<?= base_url('/alternative'); ?>"><i class="fa fa-circle-o"></i> Alternative</a></li>
+            <li><a href="<?= base_url('/kriteria'); ?>"><i class="fa fa-circle-o"></i> Kriteria</a></li>
+            <li><a href="<?= base_url('/sub-kriteria'); ?>"><i class="fa fa-circle-o"></i> Sub Kriteria</a></li>
+            <li><a href="<?= base_url('/bobot'); ?>"><i class="fa fa-circle-o"></i> bobot</a></li>
+            <li><a href="<?= base_url('/penilaian'); ?>"><i class="fa fa-circle-o"></i> Penilaian</a></li>
+            <li><a href="<?= base_url('/hasil'); ?>"><i class="fa fa-circle-o"></i> hasil</a></li>
+          </ul>
+        </li>
+
+        <?php endif; ?>
+
+        <?php if (session()->get('role') == 'admin') : ?>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i> <span>Hsil</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+          <li><a href="<?= base_url('/hasil'); ?>"><i class="fa fa-circle-o"></i> hasil</a></li>
 
           </ul>
         </li>
-    
+        <?php endif; ?>
+
+        <?php if (session()->get('role') == 'admin') : ?>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-user"></i> <span>User</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?= base_url('/user'); ?>"><i class="fa fa-circle-o"></i> Kelola User</a></li>
+            <li><a href="<?= base_url('/user/add'); ?>"><i class="fa fa-circle-o"></i> Tambah User</a></li>
+
+          </ul>
+        </li>
+        <?php endif; ?>
+        <li><a href="#"  onclick="signOut()"><i class="fa fa-sign-out"></i> sign Out</a></li>
 
       </ul>
     </section>
@@ -480,7 +572,30 @@ $uri = service('uri');
     
 <!-- ./wrapper -->
 
+
+<script  src="<?= base_url('adminlte/plugins/input-mask/jquery.inputmask.js');?>"></script>
+<script  src="<?= base_url('adminlte/plugins/input-mask/jquery.inputmask.date.extensions.js');?>"></script>
+<script  src="<?= base_url('adminlte/plugins/input-mask/jquery.inputmask.extensions.js');?>"></script>
+<!-- date-range-picker -->
+<script  src="<?= base_url('adminlte/bower_components/moment/min/moment.min.js');?>"></script>
+<script  src="<?= base_url('adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js');?>"></script>
+<!-- bootstrap datepicker -->
+<script  src="<?= base_url('adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js');?>"></script>
+<!-- bootstrap color picker -->
+<script  src="<?= base_url('adminlte/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js');?>"></script>
+<!-- bootstrap time picker -->
+<script  src="<?= base_url('adminlte/plugins/timepicker/bootstrap-timepicker.min.js');?>"></script>
+<!-- SlimScroll -->
+<script  src="<?= base_url('adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
+<!-- iCheck 1.0.1 -->
+<script  src="<?= base_url('adminlte/plugins/iCheck/icheck.min.js');?>"></script>
+<!-- FastClick -->
+<!-- AdminLTE App -->
+
+
 <!-- jQuery 3 -->
+<script  src="<?= base_url('adminlte/bower_components/select2/dist/js/select2.full.min.js');?>"></script>
+
 <script  src="<?= base_url('adminlte/bower_components/jquery/dist/jquery.min.js');?>"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?= base_url('adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
@@ -492,16 +607,14 @@ $uri = service('uri');
 <link rel="stylesheet" href="<?= base_url('css/sweetalert.css');?>">
 
 <!-- SlimScroll -->
-<script src="<?= base_url('adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
 
-<script src="<?= base_url('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js');?>"></script>
-<script src="<?= base_url('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js');?>"></script>
 
 <!-- AdminLTE for demo purposes -->
-<?= $this->renderSection('js') ?>
+<?= $this->renderSection('js')?>
 
 
 <script>
+
         function signOut() {
             swal({
                 title: 'Sign Out?',
@@ -521,7 +634,7 @@ $uri = service('uri');
 
     <?php
     $page = strtolower($uri->getSegment(1));
-    $arr_page = ['alternative', 'kriteria', 'sub-kriteria', 'user'];
+    $arr_page = ['alternative', 'kriteria', 'sub-kriteria', 'user', 'user_mhs', 'mhs'];
 
     if (in_array($page, $arr_page)) :
         switch ($page) {
@@ -545,6 +658,11 @@ $uri = service('uri');
                 $orderLess = 4;
                 $urlDelete = base_url('user/delete');
                 break;
+                case 'user_mhs':
+                  $UrlDatatable = base_url('user_mhs/ajax-list');
+                  $orderLess = 2;
+                  $urlDelete = base_url('user_mhs/delete');
+                  break;
                 case 'mhs':
                   $UrlDatatable = base_url('mhs/ajax-list');
                   $orderLess = 4;
@@ -881,6 +999,8 @@ $uri = service('uri');
         </script>
         </script>
     <?php endif; ?>
-
+    <script>
+    $('.select2').select2()
+    </script>
 </body>
 </html>

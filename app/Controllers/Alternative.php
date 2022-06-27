@@ -233,19 +233,12 @@ class Alternative extends BaseController
             $no = $this->request->getPost("start");
 
             foreach ($lists as $list) {
-                $button = '
-				<button type="button" class="btn btn-xs btn-warning my-1" onclick="getData(\'' . encrypt_url($list->id_alternative) . '\')">
-					<i class="fa fa-edit"></i>
-				</button>
-				<button type="button" class="btn btn-xs btn-danger my-1" onclick="sweetDelete(\'' . encrypt_url($list->id_alternative) . '\')">
-					<i class="fa fa-trash"></i>
-				</button>';
+          
                 $no++;
                 $row = [];
                 $row[] = $no;
                 $row[] = $list->kode_alternative;
                 $row[] = $list->nama_alternative;
-                $row[] = $button;
                 $data[] = $row;
             }
 

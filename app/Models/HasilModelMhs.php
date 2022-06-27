@@ -4,17 +4,21 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class MhsModel extends Model
+class HasilModelMhs extends Model
 {
-    protected $table                = 'tbl_mhs';
-    protected $primaryKey           = 'id_mhs';
-    protected $allowedFields        = ['nim_mhs', 'password_mhs', 'nama_mhs', 'tempat_lahir', 'tgl_lahir', 'email', 'jurusan_mhs', 'alamat', 'tahun_angkatan', 'semester', 'ipk', 'file_ipk', 'prestasi', 'file_prestasi', 'pengabdian_masyarakat', 'file_pengabdian_masyarakat', 'organisasi', 'file_organisasi', 'foto_mhs', 'tgl_input', 'status'];
+    protected $DBGroup              = 'default';
 
-    protected $column_order = array(null, 'nama_mhs', 'tempat_lahir', 'tgl_lahir', 'email', 'jurusan_mhs', 'alamat', 'tahun_angkatan', 'semester', 'ipk', 'file_ipk', 'prestasi', 'file_prestasi', 'pengabdian_masyarakat', 'file_pengabdian_masyarakat', 'organisasi', 'file_organisasi', 'foto_mhs', 'tgl_input', 'status', null);
-    protected $column_search = array('nim_mhs', 'password_mhs', 'nama_mhs', 'tempat_lahir', 'tgl_lahir', 'email', 'jurusan_mhs', 'alamat', 'tahun_angkatan', 'semester', 'ipk', 'file_ipk', 'prestasi', 'file_prestasi', 'pengabdian_masyarakat', 'file_pengabdian_masyarakat', 'organisasi', 'file_organisasi', 'foto_mhs', 'tgl_input', 'status');
-    protected $order = array('nama_mhs' => 'asc');
+    protected $table                = 'tbl_hasil';
+    protected $primaryKey           = '';
+    protected $allowedFields        = ['id_alternative', 'hasil'];
+
+    protected $column_order = array(null, 'id_alternative', 'hasil', null);
+    protected $column_search = array('id_alternative', 'hasil');
+    protected $order = array('hasil' => 'DESC');
     protected $db;
     protected $dt;
+    
+   
 
     function __construct()
     {
@@ -25,6 +29,8 @@ class MhsModel extends Model
 
     private function _get_datatables_query()
     {
+        $this->dt->join('tbl_alternative', 'tbl_alternative.id_alternative = tbl_hasil.id_alternative');
+
         $i = 0;
         foreach ($this->column_search as $item) {
             if ($_POST['search']['value']) {
@@ -68,10 +74,21 @@ class MhsModel extends Model
 
     public function count_all()
     {
-        $tbl_storage = $this->db->table($this->table)
-            ->where('id_mhs !=', decrypt_url(session()->get('id_mhs')));;
+        $tbl_storage = $this->db->table($this->table);
         return $tbl_storage->countAllResults();
     }
 
- 
+    public function getAlternative()
+    {
+        return $this->dt->select(
+            'tbl_alternative.id_alternative AS id_alternative,
+            kode_alternative,
+            nama_alternative'
+        )
+            ->join('tbl_penilaian', 'tbl_penilaian.id_alternative = tbl_alternative.id_alternative')
+            ->groupBy('tbl_alternative.id_alternative, kode_alternative, nama_alternative')
+            ->get();
+    }
 }
+
+

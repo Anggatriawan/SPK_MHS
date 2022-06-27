@@ -33,7 +33,7 @@ class HasilModel extends Model
         return $this->db->table($this->table)
             ->join('tbl_alternative', 'tbl_alternative.id_alternative = tbl_hasil.id_alternative')
             ->select('nama_alternative, hasil')
-            ->where('hasil', "(SELECT max(hasil) FROM tbl_hasil)", false)
+            ->where('hasil', "(SELECT max(hasil) FROM tbl_hasil )", false)
             ->get();
     }
 }

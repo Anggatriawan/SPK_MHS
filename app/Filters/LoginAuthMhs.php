@@ -11,7 +11,7 @@ class LoginAuthMhs implements FilterInterface
 	public function before(RequestInterface $request, $arguments = null)
 	{
 		if (session()->get('isLogin')) {
-			return redirect()->to('/layout/default');
+			return redirect()->to('/dashboard');
 		}
 	}
 

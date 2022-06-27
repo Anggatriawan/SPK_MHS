@@ -21,7 +21,7 @@
             margin: 0px;
             padding: 0px;
             height: 100%;
-            background-color: #191919;
+            background-color: #753f99;
             color: #fff;
         }
 
@@ -54,15 +54,15 @@
         <div class="row">
             <div class="col-md-4 col-xs-12 mt-5 pt-5 offset-md-4">
                 <div class="text-center">
-                    <img src="<?= base_url('img/logo.png'); ?>" alt="logo" class="img-logo">
-                    <h5>SPK Metode SAW LOGIN MAHASISWA</h5>
+                    <img src="<?= base_url('img/logo1.png'); ?>" alt="logo" class="img-logo">
+                    <h5>LOGIN MAHASISWA</h5>
                 </div>
                 <div class="login-hr">&nbsp;</div>
                 <form action="<?= base_url('/login_mhs'); ?>" id="form-login-mhs" method="POST">
                     <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
                     <div class="form-group my-2">
-                        <label>Username</label>
-                        <input type="text" name="username_mhs" id="username_mhs" class="form-control" placeholder="Username..." autocomplete="off">
+                        <label>Nim</label>
+                        <input type="text" name="nim_mhs" id="nim_mhs" class="form-control" placeholder="Nim..." autocomplete="off">
                     </div>
                     <div class="form-group my-2">
                         <label>Password</label>
@@ -73,6 +73,9 @@
                             Sign In <i class="fas fa-sign-in-alt"></i>
                         </button>
                     </div>
+
+                    <a href="<?= base_url('/login'); ?>" class="text-center text-light">Jika Admin Klik di sini</a>
+                    </span>
                 </form>
             </div>
         </div>
@@ -85,7 +88,7 @@
             //tampung value
             var csrfName = '<?= csrf_token(); ?>';
             var csrfHash = $('input[name=csrf_token]').val();
-            var userName = $('#username_mhs').val();
+            var userName = $('#nim_mhs').val();
             var password = $('#password_mhs').val();
             var url = $(this).attr('action');
 
@@ -109,7 +112,7 @@
                 url: url,
                 method: "POST",
                 data: {
-                    username_mhs: userName,
+                    nim_mhs: userName,
                     password_mhs: password,
                     [csrfName]: csrfHash
                 },
@@ -127,7 +130,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         }, function() {
-                            window.location.href = '<?= base_url('layout/default'); ?>';
+                            window.location.href = '<?= base_url('dashboard'); ?>';
                         });
 
                     } else {

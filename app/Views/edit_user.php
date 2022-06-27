@@ -35,7 +35,7 @@ if (session()->getFlashdata('failed')) {
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form">
+<form role="form">
               <div class="box-body">
 
 <div class="form-group">

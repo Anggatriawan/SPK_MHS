@@ -37,11 +37,19 @@ class Filters extends BaseConfig
 			'csrf',
 			'loginauth' => [
 				'except' => [
+					
+					'profil_user_mhs',
+					'profil_user_mhs/*',
+					'hasil_mhs',
+					'hasil_mhs/*',
+					'user_mhs',
+					'user_mhs/*',
 					'hal_awal',
 					'dashboard',
 					'layout/default',
 					'profil',
 					'profil_mhs',
+					'profil_mhs/*',
 					'test_view',
 					'test_view/*',
 					'dh/*',

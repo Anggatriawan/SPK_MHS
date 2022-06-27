@@ -17,8 +17,8 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Login');
-$routes->setDefaultMethod('hal_awal');
+$routes->setDefaultController('LoginMhs');
+$routes->setDefaultMethod('login_mhs');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 $routes->setAutoRoute(true);
@@ -31,19 +31,23 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-
+$routes->get('/hal_awal', 'HalAwal::index');
 $routes->get('/login', 'Login::index');
 $routes->post('/login', 'Login::proses_login');
+
 $routes->get('/login_mhs', 'LoginMhs::index');
 $routes->post('/login_mhs', 'LoginMhs::proses_login_mhs');
 $routes->get('/dashboard', 'Home::index');
+$routes->get('/dashboard', 'UserMhs::index');
+
+
 $routes->get('/layout/default', 'Home1::index');
-$routes->get('/logout', 'Home1::logout1');
+$routes->get('/logout1', 'Home1::logout1');
 
 $routes->get('/logout', 'Home::logout');
 
-$routes->get('/profil_mhs', 'Home1::profil_mhs');
-$routes->post('/profil_mhs', 'Home1::update_profil_mhs');
+$routes->get('/profil_user_mhs', 'Home1::profil_mhs');
+$routes->post('/profil_user_mhs', 'Home1::update_profil_mhs');
 
 $routes->get('/profil', 'Home::profil');
 $routes->post('/profil', 'Home::update_profil');
@@ -100,13 +104,22 @@ $routes->post('/penilaian/(:any)', 'Penilaian::update/$1');
  * Test Routes
  * ---------------------------------------------------------------- */
 
-$routes->get('/profil_mhs', 'ProfilMhs::index');
-$routes->post('/profil_mhs/ajax-list', 'ProfilMhs::ajaxList');
-$routes->post('/profil_mhs/get-detail', 'ProfilMhs::getDetail');
+
+
+$routes->get('/profil_mhs', 'ProfilMhs::profil_mhs');
+$routes->post('/profil_mhs', 'ProfilMhs::update_profil_mhs');
+$routes->get('/change-password', 'ProfilMhs::change_password');
+$routes->post('/change-password', 'ProfilMhs::update_password');
+
+$routes->post('/profil_mhs/delete', 'UserMhs::delete');
+$routes->get('/profil_mhs/(:any)', 'UserMhs::edit/$1');
+$routes->post('/profil_mhs/(:any)', 'UserMhs::update/$1');
 
 
 
 
+
+/*
 
 
 
@@ -143,6 +156,11 @@ $routes->post('/mhs/(:any)', 'Mhs::update/$1');
 $routes->get('/hasil', 'Hasil::index');
 $routes->get('/cetak-hasil', 'Hasil::cetak');
 
+$routes->get('/hasil_mhs', 'HasilMhs::index');
+$routes->post('/hasil_mhs/ajax-list', 'HasilMhs::ajaxList');
+$routes->post('/hasil_mhs/delete', 'HasilMhs::delete');
+
+
 /* -------------------------------------------------------------------
  * Manajemen User Routes
  * ---------------------------------------------------------------- */
@@ -154,6 +172,15 @@ $routes->post('/user/delete', 'User::delete');
 $routes->get('/user/(:any)', 'User::edit/$1');
 $routes->post('/user/(:any)', 'User::update/$1');
 
+/*
+$routes->get('/user_mhs', 'UserMhs::index');
+$routes->get('/user_mhs/add', 'UserMhs::add');
+$routes->post('/user_mhs/add', 'UserMhs::simpan');
+$routes->post('/user_mhs/ajax-list', 'UserMhs::ajaxList');
+$routes->post('/user_mhs/delete', 'UserMhs::delete');
+$routes->get('/user_mhs/(:any)', 'UserMhs::edit');
+$routes->post('/user_mhs/(:any)', 'UserMhs::update');
+*/
 /*
  * --------------------------------------------------------------------
  * Additional Routing

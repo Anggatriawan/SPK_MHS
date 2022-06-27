@@ -9,10 +9,11 @@ class Home extends BaseController
 
 	function __construct()
     {
+        /*
         if (session()->get('role') != 'admin') {
             echo view('access_denied_message');
             exit;
-        }
+        }*/
     }
 	public function index()
 	{

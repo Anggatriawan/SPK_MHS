@@ -33,7 +33,6 @@ $err = session()->getFlashdata('validation');
             echo '<h5 id="form-header">Update Data</h5>';
             echo '<form action="' . session()->getFlashdata('url_update') . '" method="POST" id="form-sub-kriteria">';
         } else {
-            echo '<h5 id="form-header">Tambah Data</h5>';
             echo '<form action="' . base_url('sub-kriteria') . '" method="POST" id="form-sub-kriteria">';
         }
         ?>
@@ -41,13 +40,13 @@ $err = session()->getFlashdata('validation');
         
         <section class="content-header">
       <h1>
-        Input Data Kriteria
+        Input Data Sub Kriteria
         <small></small>
       </h1>
         <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Forms</a></li>
-        <li class="active">Input Data Kriteria</li>
+        <li class="active">Input Data Sub Kriteria</li>
       </ol>
     </section>
 
@@ -74,6 +73,7 @@ $err = session()->getFlashdata('validation');
               
             <div class="form-group">
             <label for="kriteria" class="py-2"> Kriteria</label>
+
             <select name="kriteria" id="kriteria" class="form-control form-control-sm <?= (isset($err['kriteria'])) ? 'is-invalid' : ''; ?>" required>
                 <option value="" disabled selected>Pilih kriteria</option>
                 <?php
@@ -83,6 +83,7 @@ $err = session()->getFlashdata('validation');
                 }
                 ?>
             </select>
+            
             <div class="invalid-feedback">
                 <?= (isset($err['kriteria'])) ? $err['kriteria'] : ''; ?>
             </div>

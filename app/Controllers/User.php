@@ -72,7 +72,9 @@ class User extends BaseController
                         'in_list'   => '{field} tidak valid'
                     ]
                 ]
-            ])) {
+            ])
+            
+            ) {
                 $validation = \Config\Services::validation();
                 //masukkan pesan kesalahan ke flashdata
                 $this->session->setFlashdata('validation', $validation->getErrors());

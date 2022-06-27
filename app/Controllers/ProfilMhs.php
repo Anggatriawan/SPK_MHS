@@ -21,8 +21,9 @@ class ProfilMhs extends BaseController
 		//load model user
 		$model = new ProfilModelMhs();
 		//ambil data sesuai session
-		$get = $model->where('id', decrypt_url($this->session->get('idUser')))->first();
+		$get = $model->where('id_mhs', decrypt_url($this->session->get('idUser')))->first();
 		if (!$get) {
+			
 			return redirect()->back();
 		}
 
@@ -34,13 +35,14 @@ class ProfilMhs extends BaseController
 		return view('profil_mhs', $data);
 	}
 
+
 	public function update_profil_mhs()
 	{
 		if ($this->request->getPost('Submit') == 'Submit') {
 			//load model user
 			$model = new ProfilModelMhs();
 			//ambil data
-			$get = $model->where('id', decrypt_url($this->session->get('idUser')))->first();
+			$get = $model->where('id_mhs', decrypt_url($this->session->get('idUser')))->first();
 			if (!$get) {
 				return redirect()->back();
 			}
@@ -79,7 +81,7 @@ class ProfilMhs extends BaseController
 
 			//simpan data
 			$data = [
-				'id'	=> $get['id'],
+				'id_mhs'	=> $get['id_mhs'],
 				'username'	=> $this->request->getPost('user'),
 				'fullname'	=> $this->request->getPost('nama')
 			];
@@ -117,7 +119,7 @@ class ProfilMhs extends BaseController
 			//load model user
 			$model = new ProfilModelMhs();
 			//ambil data
-			$get = $model->where('id_user', decrypt_url($this->session->get('idUser')))->first();
+			$get = $model->where('id_mhs', decrypt_url($this->session->get('idUser')))->first();
 			if (!$get) {
 				return redirect()->back();
 			}
@@ -164,7 +166,7 @@ class ProfilMhs extends BaseController
 
 			//simpan data
 			$data = [
-				'id_user'	=> $get['id_user'],
+				'id_mhs'	=> $get['id_mhs'],
 				'password'	=> password_hash($this->request->getPost('password_baru'), PASSWORD_DEFAULT, ['cost' => 8])
 			];
 

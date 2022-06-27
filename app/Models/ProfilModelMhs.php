@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class ProfilModelMhs extends Model
 {
-    protected $table                = 'tbl_user_mhs';
-    protected $primaryKey           = 'id';
-    protected $allowedFields        = ['username_mhs', 'password_mhs', 'id_mhs'];
+    protected $table                = 'tbl_mhs';
+    protected $primaryKey           = 'id_mhs';
+    protected $allowedFields        = ['nim_mhs', 'password_mhs', 'nama_mhs', 'tempat_lahir', 'tgl_lahir', 'email', 'jurusan_mhs', 'alamat', 'tahun_angkatan', 'semester', 'ipk', 'file_ipk', 'prestasi', 'file_prestasi', 'pengabdian_masyarakat', 'file_pengabdian_masyarakat', 'organisasi', 'file_organisasi', 'foto_mhs', 'tgl_input', 'status'];
 
-    protected $column_order = array(null, 'username_mhs', 'id_mhs', null);
-    protected $column_search = array('username_mhs', 'id_mhs');
-    protected $order = array('username_mhs' => 'asc');
+    protected $column_order = array(null, 'nama_mhs', 'tempat_lahir', 'tgl_lahir', 'email', 'jurusan_mhs', 'alamat', 'tahun_angkatan', 'semester', 'ipk', 'file_ipk', 'prestasi', 'file_prestasi', 'pengabdian_masyarakat', 'file_pengabdian_masyarakat', 'organisasi', 'file_organisasi', 'foto_mhs', 'tgl_input', 'status', null);
+    protected $column_search = array('nim_mhs', 'password_mhs', 'nama_mhs', 'tempat_lahir', 'tgl_lahir', 'email', 'jurusan_mhs', 'alamat', 'tahun_angkatan', 'semester', 'ipk', 'file_ipk', 'prestasi', 'file_prestasi', 'pengabdian_masyarakat', 'file_pengabdian_masyarakat', 'organisasi', 'file_organisasi', 'foto_mhs', 'tgl_input', 'status');
+    protected $order = array('nama_mhs' => 'asc');
     protected $db;
     protected $dt;
 
@@ -23,11 +23,9 @@ class ProfilModelMhs extends Model
         $this->dt = $this->db->table($this->table);
     }
 
-
-
     private function _get_datatables_query()
     {
-        $this->dt->where('id !=', decrypt_url(session()->get('idUser')));
+        $this->dt->where('id_mhs !=', decrypt_url(session()->get('idUser')));
 
         $i = 0;
         foreach ($this->column_search as $item) {
@@ -54,7 +52,6 @@ class ProfilModelMhs extends Model
 
     function get_datatables()
     {
-    
         $this->_get_datatables_query();
 
         if ($_POST['length'] != -1) {
@@ -74,10 +71,7 @@ class ProfilModelMhs extends Model
     public function count_all()
     {
         $tbl_storage = $this->db->table($this->table)
-            ->where('id !=', decrypt_url(session()->get('idUser')));;
+            ->where('id_mhs !=', decrypt_url(session()->get('idUser')));;
         return $tbl_storage->countAllResults();
     }
-
-
-
 }

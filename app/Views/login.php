@@ -54,8 +54,8 @@
         <div class="row">
             <div class="col-md-4 col-xs-12 mt-5 pt-5 offset-md-4">
                 <div class="text-center">
-                    <img src="<?= base_url('img/logo.png'); ?>" alt="logo" class="img-logo">
-                    <h5>SPK Metode SAW</h5>
+                    <img src="<?= base_url('img/logo1.png'); ?>" alt="logo" class="img-logo">
+                    <h5>LOGIN ADMIN</h5>
                 </div>
                 <div class="login-hr">&nbsp;</div>
                 <form action="<?= base_url('/login'); ?>" id="form-login" method="POST">
@@ -73,6 +73,8 @@
                             Sign In <i class="fas fa-sign-in-alt"></i>
                         </button>
                     </div>
+                    <a href="<?= base_url('/login_mhs'); ?>" class="text-center text-light">Jika Mahasiswa Klik di sini</a>
+
                 </form>
             </div>
         </div>

@@ -1,10 +1,12 @@
-
-<?= $this->extend('layout/default') ?>
+<?= $this->extend('dashboard') ?>
 
 <?= $this->section('css'); ?>
-<link rel="stylesheet" href="<?= base_url('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css');?>">
-<?= $this->endSection(); ?>
 
+<link rel="stylesheet" href="<?= base_url('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css'); ?>">
+<?= $this->endSection(); ?>
+<link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
 <?= $this->section('content'); ?>
 
 <?php
@@ -12,8 +14,7 @@ $err = session()->getFlashdata('validation');
 ?>
 
 
-
-        <?php
+<?php
         //tampilkan pesan success
         if (session()->getFlashdata('success')) {
             echo '<div class="my-2">
@@ -42,20 +43,15 @@ $err = session()->getFlashdata('validation');
         <li class="active"></li>
       </ol>
     </section>
-    <meta name="<?= csrf_token() ?>" content="<?= csrf_hash() ?>">
+    <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
 
    <!-- Main content -->
    <section class="content">
       <div class="row">
         <div class="col-xs-12">
-         
-
-        
+       
         <div class="box">
-
             <div class="box-header">      
-            <?php session()->get('id_mhs'); ?>
-      
             <a href="<?= base_url('mhs/add'); ?>" class="btn btn-primary btn-sm">Tambah Mahasiswa</a>
             </div>
             <!-- /.box-header -->
@@ -90,32 +86,9 @@ $err = session()->getFlashdata('validation');
       <!-- /.row -->
     </section>
     <!-- /.content -->
+    <?= $this->section('js'); ?>
+    
+    <?= $this->endSection(); ?>
 
   <!-- /.content-wrapper -->
-
-  <?= $this->endSection(); ?>
-<!-- page script -->
-<?= $this->section('js'); ?>
-<script src="<?= base_url('adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js');?>"></script>
- <script src="<?= base_url('adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js');?>"></script>
- <script type="text/javascript">
-        $(document).ready(function() {
-            var table = $('#table').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "order": [],
-                "ajax": {
-                    "url": "<?php echo site_url('mhs/ajax-list') ?>",
-                    "type": "POST",
-                    "data": {
-                      csrf_token: $('meta[name=<?= csrf_token(); ?>').attr('content')
-                    }
-                },
-                "columnDefs": [{
-                    "targets": [],
-                    "orderable": false,
-                }, ],
-            });
-        });
-    </script>
 <?= $this->endSection(); ?>

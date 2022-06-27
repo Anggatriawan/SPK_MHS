@@ -15,10 +15,11 @@ class Hasil extends BaseController
 
     function __construct()
     {
+        /*
         if (session()->get('role') != 'admin') {
             echo view('access_denied_message');
             exit;
-        }
+        }*/
     }
     public function index()
     {
@@ -58,7 +59,7 @@ class Hasil extends BaseController
             $data_analisa1 = '<thead class="text-center align-middle">
                             <tr>
                                 <th rowspan="2" style="min-width:50px">#</th>
-                                <th rowspan="2" style="min-width:200px">Nama Alternative</th>
+                                <th rowspan="2" style="min-width:200px">Nama Alternative Awal</th>
                                 <th class="text-center" colspan="' . count($getKriteria) . '">Kriteria</th>
                             </tr>
                             <tr>';
@@ -94,7 +95,7 @@ class Hasil extends BaseController
             $data_analisa2 = '<thead class="text-center align-middle">
                             <tr>
                                 <th rowspan="2" style="min-width:50px">#</th>
-                                <th rowspan="2" style="min-width:100px">Kode Alternative</th>
+                                <th rowspan="2" style="min-width:100px">Kode Alternative nilai</th>
                                 <th class="text-center" colspan="' . count($getKriteria) . '">Kriteria</th>
                             </tr>
                             <tr>';
@@ -104,33 +105,38 @@ class Hasil extends BaseController
             $data_analisa2 .= $bodyTableAnalisa2;
             $data_analisa2 .= '</tbody>';
 
-            //table normalisasi
+            //menampilkan table normalisasi
             $data_normalisasi = '<thead class="text-center align-middle">
-        <tr>
+         <tr>
             <th rowspan="2" style="min-width:50px">#</th>
-            <th rowspan="2" style="min-width:200px">Kode Alternative</th>
-            <th class="text-center" colspan="' . count($getKriteria) . '">Kriteria</th>
+            <th rowspan="2" style="min-width:200px">Kode Alternative Normalisasi</th>
         </tr>
+
         <tr>';
-            $data_normalisasi .= $kode_kriteria;
-            $data_normalisasi .= '</tr></thead>';
-            $data_normalisasi .= '<tbody>';
-            $no_normalisasi = 1;
-            foreach ($getAlternative->getResult() as $a) {
-                $data_normalisasi .= '<tr><td class="text-center">' . $no_normalisasi++ . '</td>
-                                <td>' . $a->kode_alternative . '</td>';
-                //ambil hasil penilaian
-                $getNilai = $penilaian->getNilai($a->id_alternative);
-                $no = 0;
-                $total = 0;
-                foreach ($getNilai->getResult() as $n) {
-                    if ($n->nilai != null || $n->nilai != '') {
+            $data_normalisasi .= $kode_kriteria;//menampilkan data c1,c2,c3 di ambil dari kode_kriteria
+            $data_normalisasi .= '</tr></thead>';//membuat </tr></thead> pada tabel
+            $data_normalisasi .= '<tbody>';////membuat <tBody> pada tabel
+            $no_normalisasi = 1;//membuat no urut yang di awali angka 1
+            foreach ($getAlternative->getResult() as $a) {// mengambil data alternaitve ambil dari model alternaitv di simpan di dalam variabel $a
+                $data_normalisasi .= '<tr><td class="text-center">' . $no_normalisasi++ . '</td> 
+                                <td>' . $a->kode_alternative . '</td>';//menampilkan data alternativ yang di ambil berupa kode_alternative
+                               // $no_normalisasi++ untuk penomoran otomatis
+
+              
+                $getNilai = $penilaian->getNilai($a->id_alternative);  //ambil hasil penilaian dari model penilian
+                $no = 0;//inisialisasi fariabel untuk arry data no yang di awali dari angka 0
+                $total = 0;// inisialisasi fariabel untuk arry data nilai yang di awali dari angka 0 
+                foreach ($getNilai->getResult() as $n) {//menampilkan data nilai dengan foreach
+                    if ($n->nilai != null || $n->nilai != '') {//jika nilai tidak null makan operator OR menjalakan hitung bobot 
+                        //operator || akan menghasilkan false saat nilai kiri dan kanan bernilai false
                         $data_normalisasi .= '<td class="text-center">' . $this->normalisasi($n->id_kriteria, $n->nilai) . '</td>';
-                        //hitung total bobot
+                        //hitung total bobot atau proses perhitungan matrik
                         $bobotKriteria = $this->normalisasi($n->id_kriteria, $n->nilai) * $bobot[$n->id_kriteria];
-                        $nilai_bobot[$a->id_alternative][$no++] = $bobotKriteria;
-                        $total += $bobotKriteria;
-                    } else {
+                        //hitung bobot dimana nilai normalisasi akan di kalikan dengan bobot
+                        $nilai_bobot[$a->id_alternative][$no++] = $bobotKriteria;//no membuat nomor urut sesuai dengan jumlah alternaitv
+                        $total += $bobotKriteria;//hasil dari perkalian akan di jumlahkan untuk mengetahui jumlah total/nilai terbesar
+                        //sampai di sini sudah bisa menghasilkan data perangkingan
+                    } else {//jika nilai null
                         $data_normalisasi .= '<td class="text-center"></td>';
                         $nilai_bobot[$a->id_alternative][$no++] = null;
                     }
@@ -143,7 +149,7 @@ class Hasil extends BaseController
                 $data_normalisasi .= '</tr>';
             }
 
-            //table bobot
+            //menampilkan table bobot
             $data_bobot = '<thead class="text-center align-middle"><tr>';
             $data_bobot .= $kode_kriteria;
             $data_bobot .= '</tr></thead>';
@@ -155,28 +161,31 @@ class Hasil extends BaseController
             $data_bobot .= '</tr>';
             $data_bobot .= '</tbody>';
 
-            //table perangkingan
+            //menampilkan table perangkingan
             $data_perangkingan = '<thead class="text-center align-middle">
         <tr>
             <th rowspan="2" style="min-width:50px">#</th>
-            <th rowspan="2" style="min-width:200px">Kode Alternative</th>
+            <th rowspan="2" style="min-width:200px">Nama Alternative</th>
             <th class="text-center" colspan="' . count($getKriteria) . '">Kriteria</th>
             <th rowspan="2" style="min-width:80px">Hasil</th>
         </tr>
         <tr>';
+      
             $data_perangkingan .= $kode_kriteria;
             $data_perangkingan .= '</tr></thead>';
             $data_perangkingan .= '<tbody>';
             $no_perangkingan = 1;
+  
             foreach ($getAlternative->getResult() as $a) {
                 $data_perangkingan .= '<tr><td class="text-center">' . $no_perangkingan++ . '</td>
-                                <td>' . $a->kode_alternative . '</td>';
+                                <td>' . $a->nama_alternative . '</td>';
 
-                foreach ($nilai_bobot[$a->id_alternative] as $b) {
+                foreach ($nilai_bobot[$a->id_alternative] as $b ) {
                     $data_perangkingan .= '<td class="text-center">' . $b . '</td>';
                 }
 
                 $data_perangkingan .= '<td class="text-center">' . $hasil_arr[$a->id_alternative] . '</td>';
+                //menampilkan data arry total data yang di push di dalam $hasil_arr
                 $data_perangkingan .= '</tr>';
             }
 
@@ -347,11 +356,13 @@ class Hasil extends BaseController
         <tr>
             <th rowspan="2" style="text-align:center">#</th>
             <th rowspan="2" style="text-align:center">Kode Alternative</th>
+            <th rowspan="2" style="text-align:center">Nama Alternative</th>
             <th class="text-center" colspan="' . count($getKriteria) . '">Kriteria</th>
             <th rowspan="2" style="text-align:center">Hasil</th>
         </tr>
         <tr>';
         $data_perangkingan .= $kode_kriteria;
+
         $data_perangkingan .= '</tr></thead>';
         $data_perangkingan .= '<tbody>';
         $no_perangkingan = 1;
@@ -406,10 +417,11 @@ class Hasil extends BaseController
         //ambil data penilaian
         $get = $model->getNilaiPenilaian($id_kriteria)->getRowArray();
 
-        if ($get['sifat'] === 'benefit') {
-            $result = round(($nilai / $get['nilai_max']), 3);
+        if ($get['sifat'] === 'benefit') {//jika data yang di ambil benefit maka di bgai dengan nilai_max
+            //jika selain benefit (cost) di bagi nilai_min
+            $result = round(($nilai / $get['nilai_max']), 3);//nilai max
         } else {
-            $result = round(($get['nilai_min'] / $nilai), 3);
+            $result = round(($get['nilai_min'] / $nilai), 3);//nilai min
         }
 
         return $result;

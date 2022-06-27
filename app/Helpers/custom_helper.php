@@ -19,5 +19,16 @@ function getUserMhs1(){
     ->get()->getRow();
 }
 
+function userLoginMhs(){
+    $db=\Config\Database::connect();
+return $db->table('tbl_mhs', session('id_mhs'))->get()->getRow();
+
+
+}
+function nilaiTinggi(){
+    $db=\Config\Database::connect();
+    return $db->table('tbl_hasil')->selectMax('nilai');
+}
+    
 
 ?>

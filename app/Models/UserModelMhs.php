@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class MhsModel extends Model
+class UserModelMhs extends Model
 {
     protected $table                = 'tbl_mhs';
     protected $primaryKey           = 'id_mhs';
@@ -25,6 +25,8 @@ class MhsModel extends Model
 
     private function _get_datatables_query()
     {
+        $this->dt->where('id_mhs !=', decrypt_url(session()->get('idUser')));
+
         $i = 0;
         foreach ($this->column_search as $item) {
             if ($_POST['search']['value']) {
@@ -69,9 +71,7 @@ class MhsModel extends Model
     public function count_all()
     {
         $tbl_storage = $this->db->table($this->table)
-            ->where('id_mhs !=', decrypt_url(session()->get('id_mhs')));;
+            ->where('id_mhs !=', decrypt_url(session()->get('idUser')));;
         return $tbl_storage->countAllResults();
     }
-
- 
 }

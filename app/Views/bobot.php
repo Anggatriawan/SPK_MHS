@@ -2,7 +2,6 @@
 
 <?= $this->section('css'); ?>
 
-<link rel="stylesheet" href="<?= base_url('adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css');?>">
 <?= $this->endSection(); ?>
 <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -23,6 +22,23 @@ if (session()->getFlashdata('failed')) {
             </div>';
 }
 ?>
+
+
+    
+<section class="content-header">
+      <h1>
+        Input Data Bobot
+        <small></small>
+      </h1>
+        <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Forms</a></li>
+        <li class="active">Input Data Bobot</li>
+      </ol>
+    </section>
+
+    <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
+
 
 <section class="content">
 <?= form_open('/bobot'); ?>

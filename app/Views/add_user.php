@@ -36,13 +36,13 @@ if (session()->getFlashdata('failed')) {
 
     <section class="content-header">
       <h1>
-        Input Data Mahasiswa
+        Input Data Use
         <small></small>
       </h1>
         <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Forms</a></li>
-        <li class="active">Input Data Mahasiswa</li>
+        <li class="active">Input Data User</li>
       </ol>
     </section>
 

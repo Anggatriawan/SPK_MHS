@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\ProfilModelmhs;
+use App\Models\UserModelMhs;
 
 class LoginMhs extends BaseController
 {
@@ -19,7 +19,7 @@ class LoginMhs extends BaseController
         if ($this->request->isAJAX()) {
             //lakukan validasi data
             if (!$this->validate([
-                'username_mhs' => [
+                'nim_mhs' => [
                     'label' => 'Username',
                     'rules' => 'required'
                 ],
@@ -36,19 +36,21 @@ class LoginMhs extends BaseController
                 ];
             } else {
                 //load model user
-                $user = new ProfilModelmhs();
+                $user = new UserModelMhs();
                 //ambil data sesuai
-                $username_mhs = $this->request->getPost('username_mhs');
+                $nim_mhs = $this->request->getPost('nim_mhs');
                 $password_mhs = $this->request->getPost('password_mhs');
-                $get = $user->where('username_mhs', $username_mhs)->first();
+
+                $get = $user->where('nim_mhs', $nim_mhs)->first();
                 if ($get) {
                     //validasi password
                     if (password_verify($password_mhs, $get['password_mhs'])) {
                         //masukkan data ke session
                         $this->session->set([
-                            'idUser'    => encrypt_url($get['id']),
-                            'user'      => $get['username_mhs'],
-                            'id_mhss'      => $get['id_mhs'],
+                            'idUser'    => encrypt_url($get['id_mhs']),
+                            'user'      => $get['nim_mhs'],
+                            'nama_mhs'      => $get['nama_mhs'],
+                            'status'    => $get['status'],
                             'isLogin'   => true
                         ]);
 

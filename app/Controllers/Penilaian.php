@@ -17,6 +17,7 @@ class Penilaian extends BaseController
             exit;
         }
     }
+    
     public function index()
     {
         //load model alternative
